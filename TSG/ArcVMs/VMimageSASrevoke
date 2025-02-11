@@ -1,0 +1,25 @@
+## Revoke shared access signatures (SAS) for Azure Local VM images created via Azure storage accounts
+
+This TSG covers how to address an issue Microsoft has identified where the SAS created from a storage account resource to create an Arc Virtual Machine running on Azure Local image appears in logs and/or error messages. 
+
+## Symptom
+
+The SAS used to create an Arc VM image from a storage account is logged and can be accessed for reuse. It would appear in an error message or system logs.
+
+## Cause
+
+The error message or logs did not redact the SAS and would leave this SAS vulnerable for reuse outside of the intended single-use creation of a VM image for Azure Local.
+VM images created on releases prior to Azure Local 2411.2 release are vulnerable.
+
+## Mitigation Details
+
+Microsoft resolved this issue via Azure Local version 2411.2. All VM images created after this version are expected to redact any SAS used in logs and error messages.
+
+### VM images created via Azure Portal
+1.	If it has been more than 7 days since creating the image, no action needs to be taken. The SAS is no longer valid and has expired.
+2.	If it has been less than 7 days, you will need to revoke user delegation key or change/remove role assignments. See Revoke a user delegation SAS for full steps.
+
+### VM images created via Azure CLI
+
+    
+If you require further assistance, contact Microsoft Support.
